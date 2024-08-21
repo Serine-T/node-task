@@ -1,5 +1,5 @@
-import { readdir, stat } from 'fs/promises';
-import { join } from 'path';
+const { readdir, stat } = require('fs/promises');
+const { join } = require('path');
 
 const dirNames = async (dirPath: string, level: number = 0): Promise<void> => {
   try {
@@ -16,9 +16,17 @@ const dirNames = async (dirPath: string, level: number = 0): Promise<void> => {
       }
     }
   } catch (e) {
-    console.error(e);  }
+    console.error(`Catched Error: ${(e as Error).message}`);
+  }
+};
+
+const folderName = process.argv[2];
+
+if (!folderName) {
+  console.error('Please enter the folder name.');
+  process.exit(1);
 }
 
-const srcPath = __dirname;
+const srcPath = join(__dirname, folderName);
 
 dirNames(srcPath);
